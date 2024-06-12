@@ -11,8 +11,7 @@
 <body>
 
   <style>
-    .container {
-      height: 100vh;
+    section {
       background: rgb(74, 48, 192);
       background: -moz-linear-gradient(215deg, rgba(74, 48, 192, 1) 0%, rgba(192, 48, 120, 1) 100%);
       background: -webkit-linear-gradient(215deg, rgba(74, 48, 192, 1) 0%, rgba(192, 48, 120, 1) 100%);
@@ -20,13 +19,17 @@
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4a30c0", endColorstr="#c03078", GradientType=1);
     }
 
+    .container {
+      height: 100vh;
+    }
+
     .photo {
       border-radius: 100%;
       box-shadow: 1px 1px 6px 3px;
-      width: 40%;
 
     }
   </style>
+  <?php print_r(the_post()) ?>
   <section>
     <div class="container">
       <div class="col-md-12 col-12 h-100">
@@ -40,7 +43,21 @@
           <p>t</p>
         </div>
         <div class="d-flex justify-content-center mt-5">
-          teste2
+
+          <div class="d-flex flex-column justify-content-center align-items-center w-100">
+            <?php
+            // Obtém os valores das metaboxes
+            $meta_values = get_post_meta(get_the_ID(), '_meu_plugin_meta_data', true);
+
+            // Verifica se existem valores e se é um array
+            if (!empty($meta_values) && is_array($meta_values)) :
+              foreach ($meta_values as $meta_value) :
+            ?>
+                <a href="<?= $meta_value['url'] ?>" class="w-100"><button type="button" style="box-shadow: 1px 1px 11px -3px black" class="rounded-5 btn btn-primary m-2 w-100 fs-4 fw-bold"><?= $meta_value['texto'] ?></button></a>
+            <?php endforeach;
+            endif; ?>
+          </div>
+
         </div>
       </div>
     </div>
