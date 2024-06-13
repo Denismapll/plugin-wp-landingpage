@@ -67,12 +67,12 @@ function meu_plugin_create_post_type()
     'show_ui'            => true,
     'show_in_menu'       => true,
     'query_var'          => true,
-    'rewrite'            => array('slug' => 'lp'),
+    'rewrite'            => array('slug' => 'links'),
     'capability_type'    => 'post',
     'has_archive'        => false,
     'hierarchical'       => false,
     'menu_position'      => null,
-    'supports'           => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments')
+    'supports'           => array('title')
   );
 
   register_post_type('landing_page', $args);
@@ -107,6 +107,24 @@ function meu_plugin_add_meta_box() {
         'normal',
         'high'
     );
+
+    add_meta_box(
+        'meu_plugin_color_meta_box',
+        'Cores da Landing Page',
+        'meu_plugin_color_meta_box_callback',
+        'landing_page',
+        'side',
+        'default'
+    );
+
+    add_meta_box(
+        'meu_plugin_social_meta_box',
+        'Redes Sociais',
+        'meu_plugin_social_meta_box_callback',
+        'landing_page',
+        'side',
+        'default'
+    );
 }
 add_action( 'add_meta_boxes', 'meu_plugin_add_meta_box' );
 
@@ -129,6 +147,51 @@ function meu_plugin_meta_box_callback( $post ) {
     }
     echo '</div>';
     echo '<button type="button" id="add-meta-box">Adicionar Novo</button>';
+}
+
+// Callback para mostrar campos de cores
+function meu_plugin_color_meta_box_callback( $post ) {
+    wp_nonce_field( 'meu_plugin_save_color_meta_box_data', 'meu_plugin_color_meta_box_nonce' );
+
+    $color1 = get_post_meta( $post->ID, '_meu_plugin_color1', true );
+    $color2 = get_post_meta( $post->ID, '_meu_plugin_color2', true );
+
+    echo '<label for="meu_plugin_color1">Cor Primária:</label>';
+    echo '<input type="color" id="meu_plugin_color1" name="meu_plugin_color1" value="' . esc_attr( $color1 ) . '" />';
+
+    echo '<br><label for="meu_plugin_color2">Cor Secundária:</label>';
+    echo '<input type="color" id="meu_plugin_color2" name="meu_plugin_color2" value="' . esc_attr( $color2 ) . '" />';
+}
+
+
+// Callback para mostrar campos de redes sociais
+function meu_plugin_social_meta_box_callback( $post ) {
+    wp_nonce_field( 'meu_plugin_save_social_meta_box_data', 'meu_plugin_social_meta_box_nonce' );
+
+    $facebook = get_post_meta( $post->ID, '_meu_plugin_facebook', true );
+    $instagram = get_post_meta( $post->ID, '_meu_plugin_instagram', true );
+    $linkedin = get_post_meta( $post->ID, '_meu_plugin_linkedin', true );
+    $twitter = get_post_meta( $post->ID, '_meu_plugin_twitter', true );
+    $whatsapp = get_post_meta( $post->ID, '_meu_plugin_whatsapp', true );
+    $youtube = get_post_meta( $post->ID, '_meu_plugin_youtube', true );
+
+    echo '<label for="meu_plugin_facebook">Facebook:</label><br>';
+    echo '<input type="url" id="meu_plugin_facebook" name="meu_plugin_facebook" value="' . esc_attr( $facebook ) . '" size="25" />';
+    
+    echo '<br><label for="meu_plugin_instagram">Instagram:</label><br>';
+    echo '<input type="url" id="meu_plugin_instagram" name="meu_plugin_instagram" value="' . esc_attr( $instagram ) . '" size="25" />';
+    
+    echo '<br><label for="meu_plugin_linkedin">LinkedIn:</label><br>';
+    echo '<input type="url" id="meu_plugin_linkedin" name="meu_plugin_linkedin" value="' . esc_attr( $linkedin ) . '" size="25" />';
+    
+    echo '<br><label for="meu_plugin_twitter">Twitter:</label><br>';
+    echo '<input type="url" id="meu_plugin_twitter" name="meu_plugin_twitter" value="' . esc_attr( $twitter ) . '" size="25" />';
+    
+    echo '<br><label for="meu_plugin_whatsapp">WhatsApp:</label><br>';
+    echo '<input type="url" id="meu_plugin_whatsapp" name="meu_plugin_whatsapp" value="' . esc_attr( $whatsapp ) . '" size="25" />';
+    
+    echo '<br><label for="meu_plugin_youtube">YouTube:</label>';
+    echo '<input type="url" id="meu_plugin_youtube" name="meu_plugin_youtube" value="' . esc_attr( $youtube ) . '" size="25" />';
 }
 
 // Função para salvar os dados da metabox
@@ -170,6 +233,71 @@ function meu_plugin_save_meta_box_data( $post_id ) {
     update_post_meta( $post_id, '_meu_plugin_meta_data', $values );
 }
 add_action( 'save_post', 'meu_plugin_save_meta_box_data' );
+
+function meu_plugin_save_color_meta_box_data( $post_id ) {
+    if ( ! isset( $_POST['meu_plugin_color_meta_box_nonce'] ) ) {
+        return;
+    }
+
+    if ( ! wp_verify_nonce( $_POST['meu_plugin_color_meta_box_nonce'], 'meu_plugin_save_color_meta_box_data' ) ) {
+        return;
+    }
+
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+
+    if ( isset( $_POST['meu_plugin_color1'] ) ) {
+        $color1 = sanitize_hex_color( $_POST['meu_plugin_color1'] );
+        update_post_meta( $post_id, '_meu_plugin_color1', $color1 );
+    }
+
+    if ( isset( $_POST['meu_plugin_color2'] ) ) {
+        $color2 = sanitize_hex_color( $_POST['meu_plugin_color2'] );
+        update_post_meta( $post_id, '_meu_plugin_color2', $color2 );
+    }
+}
+add_action( 'save_post', 'meu_plugin_save_color_meta_box_data' );
+
+// Função para salvar os dados das redes sociais
+function meu_plugin_save_social_meta_box_data( $post_id ) {
+    if ( ! isset( $_POST['meu_plugin_social_meta_box_nonce'] ) ) {
+        return;
+    }
+
+    if ( ! wp_verify_nonce( $_POST['meu_plugin_social_meta_box_nonce'], 'meu_plugin_save_social_meta_box_data' ) ) {
+        return;
+    }
+
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+
+    $fields = array(
+        'facebook' => '_meu_plugin_facebook',
+        'instagram' => '_meu_plugin_instagram',
+        'linkedin' => '_meu_plugin_linkedin',
+        'twitter' => '_meu_plugin_twitter',
+        'whatsapp' => '_meu_plugin_whatsapp',
+        'youtube' => '_meu_plugin_youtube'
+    );
+
+    foreach ($fields as $field => $meta_key) {
+        if ( isset( $_POST["meu_plugin_{$field}"] ) ) {
+            $url = esc_url_raw( $_POST["meu_plugin_{$field}"] );
+            update_post_meta( $post_id, $meta_key, $url );
+        }
+    }
+}
+add_action( 'save_post', 'meu_plugin_save_social_meta_box_data' );
 
 // Adicionando scripts e estilos
 function meu_plugin_admin_scripts() {
