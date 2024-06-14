@@ -69,8 +69,8 @@
         <div class="row justify-content-center">
           <div class="col-12 col-md-5 d-flex justify-content-between">
             <div class="col-2">
-              <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
-                  src="<?php echo $my_plugin; ?>/img/share-nobg.png" alt="" srcset="" style="width: 28px; background: transparent; border-radius: 100%; border: 1px solid black;"></a>
+              <button href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#exampleModal" style="border-radius: 100%; padding: 3px;"><img
+                  src="<?php echo $my_plugin; ?>/img/share-nobg.png" alt="" srcset="" style="width: 28px; background: transparent; "></button>
             </div>
             <div class="col-2"></div>
           </div>
