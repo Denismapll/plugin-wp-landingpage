@@ -133,21 +133,36 @@ function meu_plugin_meta_box_callback( $post ) {
     wp_nonce_field( 'meu_plugin_save_meta_box_data', 'meu_plugin_meta_box_nonce' );
 
     $values = get_post_meta( $post->ID, '_meu_plugin_meta_data', true );
-    $values = is_array( $values ) ? $values : array( array( 'texto' => '', 'url' => '' ) );
+    $values = is_array( $values ) ? $values : array( array( 'texto' => '', 'url' => '', 'imagem' => '' ) );
 
     echo '<div id="meu-plugin-metabox-container">';
     foreach ( $values as $index => $value ) {
-        echo '<div class="meu-plugin-meta-box">';
-        echo '<label for="meu_plugin_texto_' . $index . '">Texto:</label>';
-        echo '<input type="text" id="meu_plugin_texto_' . $index . '" name="meu_plugin_texto[]" value="' . esc_attr( $value['texto'] ) . '" size="25" />';
-        echo '<label for="meu_plugin_url_' . $index . '">URL:</label>';
-        echo '<input type="url" id="meu_plugin_url_' . $index . '" name="meu_plugin_url[]" value="' . esc_attr( $value['url'] ) . '" size="25" />';
+        $image = isset($value['imagem']) ? $value['imagem'] : '';
+        echo '<div class="meu-plugin-meta-box"><br>';
+        echo '<label for="meu_plugin_texto_' . $index . '">Texto:</label><br>';
+        echo '<input type="text" id="meu_plugin_texto_' . $index . '" name="meu_plugin_texto[]" value="' . esc_attr( $value['texto'] ) . '" size="25" /><br>';
+        echo '<label for="meu_plugin_url_' . $index . '">URL:</label><br>';
+        echo '<input type="url" id="meu_plugin_url_' . $index . '" name="meu_plugin_url[]" value="' . esc_attr( $value['url'] ) . '" size="25" /><br>';
+        
+        // Campo de Imagem
+        echo '<label for="meu_plugin_imagem_' . $index . '">Imagem:</label><br>';
+        echo '<input type="hidden" id="meu_plugin_imagem_' . $index . '" name="meu_plugin_imagem[]" value="' . esc_attr( $image ) . '" />';
+        echo '<button type="button" class="upload-image-button button" data-index="' . $index . '">Selecionar Imagem</button><br>';
+        echo '<div class="image-preview" id="image-preview-' . $index . '"><br>';
+        if ($image) {
+            echo '<img src="' . esc_url( wp_get_attachment_url( $image ) ) . '" style="max-width:100%;"/><br>';
+        }
+        echo '</div>';
+        
         echo '<button type="button" class="remove-meta-box">Remover</button>';
         echo '</div>';
     }
     echo '</div>';
     echo '<button type="button" id="add-meta-box">Adicionar Novo</button>';
 }
+
+
+
 
 // Callback para mostrar campos de cores
 function meu_plugin_color_meta_box_callback( $post ) {
@@ -212,20 +227,22 @@ function meu_plugin_save_meta_box_data( $post_id ) {
         return;
     }
 
-    if ( ! isset( $_POST['meu_plugin_texto'] ) || ! isset( $_POST['meu_plugin_url'] ) ) {
+    if ( ! isset( $_POST['meu_plugin_texto'] ) || ! isset( $_POST['meu_plugin_url'] ) || ! isset( $_POST['meu_plugin_imagem'] ) ) {
         return;
     }
 
     $texts = $_POST['meu_plugin_texto'];
     $urls = $_POST['meu_plugin_url'];
+    $images = $_POST['meu_plugin_imagem'];
 
     $values = array();
 
     for ( $i = 0; $i < count( $texts ); $i++ ) {
-        if ( ! empty( $texts[$i] ) || ! empty( $urls[$i] ) ) {
+        if ( ! empty( $texts[$i] ) || ! empty( $urls[$i] ) || ! empty( $images[$i] ) ) {
             $values[] = array(
                 'texto' => sanitize_text_field( $texts[$i] ),
                 'url'   => esc_url_raw( $urls[$i] ),
+                'imagem' => intval( $images[$i] ),
             );
         }
     }
@@ -233,6 +250,9 @@ function meu_plugin_save_meta_box_data( $post_id ) {
     update_post_meta( $post_id, '_meu_plugin_meta_data', $values );
 }
 add_action( 'save_post', 'meu_plugin_save_meta_box_data' );
+
+
+
 
 function meu_plugin_save_color_meta_box_data( $post_id ) {
     if ( ! isset( $_POST['meu_plugin_color_meta_box_nonce'] ) ) {
