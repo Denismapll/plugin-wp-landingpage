@@ -72,7 +72,7 @@ function meu_plugin_create_post_type()
     'has_archive'        => false,
     'hierarchical'       => false,
     'menu_position'      => null,
-    'supports'           => array('title')
+    'supports'           => array('title', 'thumbnail')
   );
 
   register_post_type('landing_page', $args);
