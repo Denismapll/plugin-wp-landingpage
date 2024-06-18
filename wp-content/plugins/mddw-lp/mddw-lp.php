@@ -150,7 +150,7 @@ function meu_plugin_meta_box_callback( $post ) {
         echo '<button type="button" class="upload-image-button button" data-index="' . $index . '">Selecionar Imagem</button><br>';
         echo '<div class="image-preview" id="image-preview-' . $index . '"><br>';
         if ($image) {
-            echo '<img src="' . esc_url( wp_get_attachment_url( $image ) ) . '" style="max-width:100%;"/><br>';
+            echo '<img src="' . esc_url( wp_get_attachment_url( $image ) ) . '" style="max-width:100%; width: 250px;"/><br>';
         }
         echo '</div>';
         

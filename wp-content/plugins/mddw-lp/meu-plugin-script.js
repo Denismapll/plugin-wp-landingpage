@@ -41,14 +41,14 @@ jQuery(document).ready(function($){
         var index = container.find('.meu-plugin-meta-box').length;
 
         var html = '<div class="meu-plugin-meta-box">';
-        html += '<label for="meu_plugin_texto_' + index + '">Texto:</label>';
-        html += '<input type="text" id="meu_plugin_texto_' + index + '" name="meu_plugin_texto[]" value="" size="25" />';
-        html += '<label for="meu_plugin_url_' + index + '">URL:</label>';
-        html += '<input type="url" id="meu_plugin_url_' + index + '" name="meu_plugin_url[]" value="" size="25" />';
-        html += '<label for="meu_plugin_imagem_' + index + '">Imagem:</label>';
+        html += '<label for="meu_plugin_texto_' + index + '">Texto:</label></br>';
+        html += '<input type="text" id="meu_plugin_texto_' + index + '" name="meu_plugin_texto[]" value="" size="25" /></br>';
+        html += '<label for="meu_plugin_url_' + index + '">URL:</label></br>';
+        html += '<input type="url" id="meu_plugin_url_' + index + '" name="meu_plugin_url[]" value="" size="25" /></br>';
+        html += '<label for="meu_plugin_imagem_' + index + '">Imagem:</label></br>';
         html += '<input type="hidden" id="meu_plugin_imagem_' + index + '" name="meu_plugin_imagem[]" value="" />';
         html += '<button type="button" class="upload-image-button button" data-index="' + index + '">Selecionar Imagem</button>';
-        html += '<div class="image-preview" id="image-preview-' + index + '"></div>';
+        html += '<div class="image-preview" id="image-preview-' + index + '" style="width: 250px;"></div>';
         html += '<button type="button" class="remove-meta-box">Remover</button>';
         html += '</div>';
 
