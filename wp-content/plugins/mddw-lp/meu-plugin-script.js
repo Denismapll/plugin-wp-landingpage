@@ -26,7 +26,7 @@ jQuery(document).ready(function($){
         frame.on('select', function() {
             var attachment = frame.state().get('selection').first().toJSON();
             $('#meu_plugin_imagem_' + index).val(attachment.id);
-            $('#image-preview-' + index).html('<img src="' + attachment.url + '" style="max-width:100%;"/>');
+            $('#image-preview-' + index).html('<img src="' + attachment.url + '" style="max-width:100%; width: 250px;"/>');
         });
 
         // Abre o media frame.
