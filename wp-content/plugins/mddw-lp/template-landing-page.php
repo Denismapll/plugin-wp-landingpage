@@ -86,7 +86,7 @@
       <div class="container">
         <div class="col-md-12 col-12 h-100">
           <div class="d-flex justify-content-center align-items-center h-25 mb-2">
-            <img src="<?php if (has_post_thumbnail()) {
+            <img data-aos="fade-down" src="<?php if (has_post_thumbnail()) {
               the_post_thumbnail_url();
             } else {
               echo $my_plugin . '/img/grade.jpg';
@@ -97,36 +97,36 @@
             <h3 class="fw-bold botao"><?php the_title(); ?></h3>
           </div>
           <div class="d-flex flex-row justify-content-center align-items-center gap-3">
-            <?php if ($facebook): ?>
-              <a target="blank_" href="<?php echo $facebook; ?>">
+            <?php if ($facebook): $tim = 200;?>
+              <a data-aos="flip-left" data-aos-delay="<?= $tim;?>" target="blank_" href="<?php echo $facebook; ?>">
                 <img src="<?php echo $my_plugin; ?>/img/facebook.png" width="32">
               </a>
-            <?php endif; ?>
+            <?php $tim += 100; endif; ?>
             <?php if ($instagram): ?>
-              <a target="blank_" href="<?php echo $instagram; ?>">
+              <a data-aos="flip-left" data-aos-delay="<?= $tim;?>" target="blank_" href="<?php echo $instagram; ?>">
                 <img src="<?php echo $my_plugin; ?>/img/instagram.png" width="32">
               </a>
-            <?php endif; ?>
+            <?php $tim += 100; endif; ?>
             <?php if ($linkedin): ?>
-              <a target="blank_" href="<?php echo $linkedin; ?>">
+              <a data-aos="flip-left" data-aos-delay="<?= $tim;?>" target="blank_" href="<?php echo $linkedin; ?>">
                 <img src="<?php echo $my_plugin; ?>/img/linkedin.png" width="32">
               </a>
-            <?php endif; ?>
+            <?php $tim += 100; endif; ?>
             <?php if ($twitter): ?>
-              <a target="blank_" href="<?php echo $twitter; ?>">
+              <a data-aos="flip-left" data-aos-delay="<?= $tim;?>" target="blank_" href="<?php echo $twitter; ?>">
                 <img src="<?php echo $my_plugin; ?>/img/twitter.png" width="32">
               </a>
-            <?php endif; ?>
+            <?php $tim += 100; endif; ?>
             <?php if ($whatsapp): ?>
-              <a target="blank_" href="<?php echo $whatsapp; ?>">
+              <a data-aos="flip-left" data-aos-delay="<?= $tim;?>" target="blank_" href="<?php echo $whatsapp; ?>">
                 <img src="<?php echo $my_plugin; ?>/img/whatsapp.png" width="32">
               </a>
-            <?php endif; ?>
+            <?php $tim += 100; endif; ?>
             <?php if ($youtube): ?>
-              <a target="blank_" href="<?php echo $youtube; ?>">
+              <a data-aos="flip-left" data-aos-delay="<?= $tim;?>" target="blank_" href="<?php echo $youtube; ?>">
                 <img src="<?php echo $my_plugin; ?>/img/youtube.png" width="32">
               </a>
-            <?php endif; ?>
+            <?php $tim += 100; endif; ?>
           </div>
           <div class="d-flex justify-content-center mt-3">
 
