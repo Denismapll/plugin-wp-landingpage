@@ -6,8 +6,8 @@
  * Version:           0.1.0
  * Requires at least: 5.2
  * Requires PHP:      7.4
- * Author:            Denis Alencar
- * Author URI:        https://github.com/Denismapll
+ * Author:            MDD Web
+ * Author URI:        https://mddweb.com.br/
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       mddw-lp
@@ -170,13 +170,18 @@ function meu_plugin_color_meta_box_callback( $post ) {
 
     $color1 = get_post_meta( $post->ID, '_meu_plugin_color1', true );
     $color2 = get_post_meta( $post->ID, '_meu_plugin_color2', true );
+    $color3 = get_post_meta( $post->ID, '_meu_plugin_color3', true );
 
     echo '<label for="meu_plugin_color1">Cor Primária:</label>';
     echo '<input type="color" id="meu_plugin_color1" name="meu_plugin_color1" value="' . esc_attr( $color1 ) . '" />';
 
     echo '<br><label for="meu_plugin_color2">Cor Secundária:</label>';
     echo '<input type="color" id="meu_plugin_color2" name="meu_plugin_color2" value="' . esc_attr( $color2 ) . '" />';
+
+    echo '<br><br><label for="meu_plugin_color3">Cor do Texto:</label>';
+    echo '<input type="color" id="meu_plugin_color3" name="meu_plugin_color3" value="' . esc_attr( $color3 ) . '" />';
 }
+
 
 
 // Callback para mostrar campos de redes sociais
@@ -279,6 +284,11 @@ function meu_plugin_save_color_meta_box_data( $post_id ) {
     if ( isset( $_POST['meu_plugin_color2'] ) ) {
         $color2 = sanitize_hex_color( $_POST['meu_plugin_color2'] );
         update_post_meta( $post_id, '_meu_plugin_color2', $color2 );
+    }
+
+    if ( isset( $_POST['meu_plugin_color3'] ) ) {
+        $color3 = sanitize_hex_color( $_POST['meu_plugin_color3'] );
+        update_post_meta( $post_id, '_meu_plugin_color3', $color3 );
     }
 }
 add_action( 'save_post', 'meu_plugin_save_color_meta_box_data' );

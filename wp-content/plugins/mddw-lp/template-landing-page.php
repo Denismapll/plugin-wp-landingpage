@@ -7,6 +7,8 @@
   <title>LandingPage</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
   <?php wp_head(); ?>
 </head>
 
@@ -17,6 +19,7 @@
     $meta_values = get_post_meta(get_the_ID(), '_meu_plugin_meta_data', true);
     $color1 = get_post_meta(get_the_ID(), '_meu_plugin_color1', true);
     $color2 = get_post_meta(get_the_ID(), '_meu_plugin_color2', true);
+    $color3 = get_post_meta(get_the_ID(), '_meu_plugin_color3', true);
     $facebook = get_post_meta(get_the_ID(), '_meu_plugin_facebook', true);
     $instagram = get_post_meta(get_the_ID(), '_meu_plugin_instagram', true);
     $linkedin = get_post_meta(get_the_ID(), '_meu_plugin_linkedin', true);
@@ -57,7 +60,11 @@
       }
 
       .foot-fix p {
-        opacity: 1;
+        opacity: 0.5;
+      }
+      .botao {
+        color: <?php echo ($color3) ?>;
+        font-family:sans-serif;
       }
     </style>
     <section>
@@ -87,7 +94,7 @@
             ; ?>" width="100" alt="" srcset="" class="mt-3 photo">
           </div>
           <div class="d-flex flex-row justify-content-center align-items-center">
-            <h3 class="text-white fw-bold"><?php the_title(); ?></h3>
+            <h3 class="fw-bold botao"><?php the_title(); ?></h3>
           </div>
           <div class="d-flex flex-row justify-content-center align-items-center gap-3">
             <?php if ($facebook): ?>
@@ -126,19 +133,20 @@
             <div class="d-flex flex-column justify-content-center align-items-center col-md-4 col-12 col-sm-8">
               <?php
               // Verifica se existem valores e se é um array
-              if (!empty($meta_values) && is_array($meta_values)):
+              if (!empty($meta_values) && is_array($meta_values)):  $timer = 100;
                 foreach ($meta_values as $meta_value):
+                  if($meta_value['url']):
                   ?>
-                  <a href="<?= $meta_value['url'] ?>" class="w-100">
+                  <a href="<?= $meta_value['url'] ?>" class="w-100" data-aos="zoom-in" data-aos-delay="<?= $timer;?>" data-aos-duration="500" data-aos-offset="0">
                     <button type="button" style="box-shadow: 1px 1px 11px -3px black"
-                      class="rounded-5 btn btn-outline-light m-2 w-100 fs-4 fw-bold position-relative">
+                      class="rounded-5 btn btn-outline-light m-2 w-100 fs-4 position-relative botao">
                       <img src="<?= wp_get_attachment_url($meta_value['imagem']); ?>"
-                        style="position: absolute; left: 9px; top: 4px; width: 39px; border-radius: 100%;" alt="" srcset="">
-                      <?= $meta_value['texto'] ?>
+                        style="position: absolute; left: 5px; top: 50%;transform: translate(0, -50%); width: 34px; border-radius: 100%;" alt="" srcset="">
+                      <p style="padding: 0 25px; margin: 0;"><?= $meta_value['texto'] ?></p>
                       
                     </button>
                   </a>
-                <?php endforeach;
+                <?php  $timer += 100 ;endif ;endforeach;
               endif; ?>
             </div>
 
@@ -156,12 +164,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <a href="https://twitter.com/intent/tweet?text=<?= home_url(); ?>"><button type="button"
+            <a href="https://twitter.com/intent/tweet?text=<?= get_permalink(); ?>"><button type="button"
                 class="btn btn-info w-100 text-left mt-2" data-bs-dismiss="modal">Compartilhe no Twitter</button></a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=<?= home_url(); ?>"><button type="button"
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<?=get_permalink(); ?>"><button type="button"
                 class="btn btn-info w-100 text-left mt-2" data-bs-dismiss="modal">Compartilhe no Facebook</button></a>
-            <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?= home_url(); ?>"><button type="button"
-                class="btn btn-info w-100 text-left mt-2" data-bs-dismiss="modal">Compartilhe no Linkedin</button></a>
+            <!-- <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?=get_permalink(); ?>"><button type="button"
+                class="btn btn-info w-100 text-left mt-2" data-bs-dismiss="modal">Compartilhe no Linkedin</button></a> -->
 
           </div>
           <div class="modal-footer">
@@ -176,7 +184,10 @@
       crossorigin="anonymous"></script>
     <?php wp_footer(); ?>
   </section>
-
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+  AOS.init();
+</script>
 
 </body>
 
