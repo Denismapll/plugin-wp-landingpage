@@ -93,7 +93,7 @@
             }
             ; ?>" width="100" alt="" srcset="" class="mt-3 photo">
           </div>
-          <div class="d-flex flex-row justify-content-center align-items-center">
+          <div class="d-flex flex-row justify-content-center align-items-center" data-aos="flip-left" data-aos-delay="200">
             <h3 class="fw-bold botao"><?php the_title(); ?></h3>
           </div>
           <div class="d-flex flex-row justify-content-center align-items-center gap-3">
